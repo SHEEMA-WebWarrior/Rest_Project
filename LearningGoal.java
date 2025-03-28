@@ -1,20 +1,28 @@
-package com.example.model;
+package com.example.model.entity;
+
 import jakarta.persistence.*;
-import java.util.*;
+
 @Entity
 public class LearningGoal {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String goalName;
-    private Date targetCompletionDate;
-    
+
+    @Column(nullable = false, length = 255)
+    private String goalDescription;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-	public void setId(Long id2) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'setId'");
-	}
+    public LearningGoal() {
+    }
+
+    public LearningGoal(String goalDescription, User user) {
+        this.goalDescription = goalDescription;
+        this.user = user;
+    }
+
+    // Getters and Setters
 }

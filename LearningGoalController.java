@@ -1,44 +1,39 @@
 package com.example.model.controller;
 
-import org.springframework.web.bind.annotation.*;
+import com.example.model.Service.LearningGoalService;
+import com.example.model.entity.LearningGoal;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-import com.example.model.LearningGoal;
-import com.example.model.Repository.LearningGoalRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/learning-goals")
 public class LearningGoalController {
 
     @Autowired
-    private LearningGoalRepository learningGoalRepository;
-
-    @GetMapping
-    public List<LearningGoal> getAllLearningGoals() {
-        return learningGoalRepository.findAll();
-    }
+    private LearningGoalService learningGoalService;
 
     @PostMapping
-    public LearningGoal createLearningGoal(@RequestBody LearningGoal learningGoal) {
-        return learningGoalRepository.save(learningGoal);
+    public LearningGoal saveLearningGoal(@RequestBody LearningGoal goal) {
+        return learningGoalService.saveLearningGoal(goal);
     }
 
     @GetMapping("/{id}")
-    public LearningGoal getLearningGoalById(@PathVariable Long id) {
-        return learningGoalRepository.findById(id).orElse(null);
+    public Optional<LearningGoal> getLearningGoalById(@PathVariable Long id) {
+        return learningGoalService.getLearningGoalById(id);
     }
 
-    @PutMapping("/{id}")
-    public LearningGoal updateLearningGoal(@PathVariable Long id, @RequestBody LearningGoal updatedGoal) {
-        if (learningGoalRepository.existsById(id)) {
-            updatedGoal.setId(id);
-            return learningGoalRepository.save(updatedGoal);
-        }
-        return null;
+    @GetMapping("/user/{userId}")
+    public Page<LearningGoal> findLearningGoalsByUserId(@PathVariable Long userId, Pageable pageable) {
+        return learningGoalService.findLearningGoalsByUserId(userId, pageable);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteLearningGoal(@PathVariable Long id) {
-        learningGoalRepository.deleteById(id);
+    @GetMapping("/search")
+    public Page<LearningGoal> searchByKeyword(@RequestParam String keyword, Pageable pageable) {
+        return learningGoalService.searchByKeyword(keyword, pageable);
     }
 }

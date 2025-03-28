@@ -1,16 +1,23 @@
-package com.example.model;
+package com.example.model.entity;
+
 import jakarta.persistence.*;
-import java.util.*;
+
 @Entity
 public class Language {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true, length = 50)
     private String name;
-    private String code;
-    private String description;
-	public void setId(Long id2) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'setId'");
-	}
+
+    public Language() {
+    }
+
+    public Language(String name) {
+        this.name = name;
+    }
+
+    // Getters and Setters
 }

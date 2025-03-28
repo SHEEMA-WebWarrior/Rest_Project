@@ -1,8 +1,5 @@
-package com.example.model;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+package com.example.model.entity;
+
 public enum DifficultyLevel {
-    BEGINNER,
-    INTERMEDIATE,
-    ADVANCED;
+    EASY, MEDIUM, HARD;
 }
